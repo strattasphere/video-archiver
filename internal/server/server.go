@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/strattasphere/video-archiver/config"
+	"github.com/strattasphere/video-archiver/internal/server/router"
 )
 
 type Server struct {
@@ -17,13 +18,12 @@ type Server struct {
 }
 
 func NewServer(c config.Config) *Server {
-	m := NewServeMux()
-	m.AddRoutes()
+	r := router.New()
 
 	return &Server{
 		srv: &http.Server{
 			Addr:    fmt.Sprintf("%s:%s", c.Host, c.Port),
-			Handler: m,
+			Handler: r,
 		},
 		conf: c,
 	}
